@@ -8,13 +8,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TarakansRace {
 
-
     private static volatile boolean raceFinished = false;
 
-    private static final AtomicInteger winnerId = new AtomicInteger(-1);
+    private static final AtomicInteger winnerId = new AtomicInteger(-1); // -1 означает, что победителя еще нет
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
         int numTarakans = 0;
         int distance = 0;
 
@@ -47,6 +47,7 @@ public class TarakansRace {
 
         List<Tarakan> tarakans = new ArrayList<>();
 
+
         for (int i = 1; i <= numTarakans; i++) {
 
             Tarakan tarakan = new Tarakan(i, distance, winnerId, raceFinished);
@@ -54,34 +55,23 @@ public class TarakansRace {
             tarakan.start();
         }
 
-        while (winnerId.get() == -1) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                System.out.println("Главный поток был прерван.");
-                Thread.currentThread().interrupt();
-                return;
-            }
-        }
-
-        raceFinished = true;
-
         for (Tarakan tarakan : tarakans) {
-            tarakan.setRaceFinished(true);
-        }
-
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            try {
+                tarakan.join();
+            } catch (InterruptedException e) {
+                System.out.println("Главный поток был прерван во время ожидания таракана #" + tarakan.getId());
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
 
 
         int finalWinnerId = winnerId.get();
+
         if (finalWinnerId != -1) {
             System.out.println(String.format("\nПоздравляем таракана #%d (победитель)!!!", finalWinnerId));
         } else {
-            System.out.println("\nГонка завершилась без явного победителя."); // Крайне маловероятно в данном сценарии
+            System.out.println("\nГонка завершилась без явного победителя.");
         }
 
         scanner.close();
