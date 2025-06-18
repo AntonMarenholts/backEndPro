@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lesson06_Java_Multithreading_Thread_Pool" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lesson_04_Java_Volatile_Atomic_ReentrantLock" vcs="Git" />
   </component>
 </project>
