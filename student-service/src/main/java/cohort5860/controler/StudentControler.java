@@ -5,6 +5,7 @@ import cohort5860.studentDto.ScoreDto;
 import cohort5860.studentDto.StudentCredentialsDto;
 import cohort5860.studentDto.StudentDto;
 import cohort5860.studentDto.StudentUpdateDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,11 +13,11 @@ import java.util.Set;
 
 @RestController
 public class StudentControler {
-
+    @Autowired
     private StudentService studentService;
 
     @PostMapping("/student")
-    public Boolean addStudent(StudentCredentialsDto studentCredentialsDto) {
+    public Boolean addStudent(@RequestBody StudentCredentialsDto studentCredentialsDto) {
         return studentService.addStudent(studentCredentialsDto);
     }
 
