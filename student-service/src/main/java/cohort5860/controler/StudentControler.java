@@ -42,8 +42,8 @@ public class StudentControler {
     }
 
     @GetMapping("/student/name/{name}")
-    public List<StudentDto> findStudentsByName() {
-        return studentService.findStudentsByName();
+    public List<StudentDto> findStudentsByName(@PathVariable String name) {
+        return studentService.findStudentsByName(name);
     }
 
     @GetMapping("/quantity/students")

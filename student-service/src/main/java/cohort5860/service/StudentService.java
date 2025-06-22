@@ -19,7 +19,7 @@ public interface StudentService {
 
     Boolean addScore (Long id, ScoreDto scoreDto);
 
-    List<StudentDto> findStudentsByName();
+    List<StudentDto> findStudentsByName(String name);
 
     Long countStudentsByName(Set<String> names);
 
