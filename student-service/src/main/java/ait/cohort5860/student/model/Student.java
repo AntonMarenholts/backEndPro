@@ -1,4 +1,4 @@
-package cohort5860.model;
+package ait.cohort5860.student.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,6 +22,7 @@ public class Student {
         this.name = name;
         this.password = password;
     }
+
     public boolean addScore(String examName, Integer score) {
         return scores.put(examName, score) == null;
     }

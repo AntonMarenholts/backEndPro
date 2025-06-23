@@ -8,7 +8,7 @@
         <version>3.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>cohort5860</groupId>
+    <groupId>ait.cohort5860</groupId>
     <artifactId>student-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>student-service</name>

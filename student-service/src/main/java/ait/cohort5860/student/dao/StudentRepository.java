@@ -1,7 +1,6 @@
-package cohort5860.dao;
+package ait.cohort5860.student.dao;
 
-import cohort5860.model.Student;
-
+import ait.cohort5860.student.model.Student;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +13,4 @@ public interface StudentRepository {
     void deleteById(Long id);
 
     List<Student> findAll();
-
-
 }

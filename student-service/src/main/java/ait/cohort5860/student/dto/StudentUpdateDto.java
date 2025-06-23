@@ -1,4 +1,4 @@
-package cohort5860.studentDto;
+package ait.cohort5860.student.dto;
 
 import lombok.Getter;
 
