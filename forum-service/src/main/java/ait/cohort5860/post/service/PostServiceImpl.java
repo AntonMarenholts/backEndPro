@@ -6,6 +6,7 @@ import ait.cohort5860.post.dto.NewCommentDto;
 import ait.cohort5860.post.dto.NewPostDto;
 import ait.cohort5860.post.dto.PostDto;
 import ait.cohort5860.post.dto.exeption.PostNotFoundExeption;
+import ait.cohort5860.post.model.Comment;
 import ait.cohort5860.post.model.Post;
 import ait.cohort5860.post.model.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,37 +52,56 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void addLike(Long id) {
-
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundExeption::new);
+        post.addLikes();
     }
 
     @Override
+    @Transactional
     public PostDto updatePost(Long id, NewPostDto newPostDto) {
-        return null;
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundExeption::new);
+        post.setTitle(newPostDto.getTitle());
+        post.setContent(newPostDto.getContent());
+        return modelMapper.map(post, PostDto.class);
     }
 
     @Override
+    @Transactional
     public PostDto deletePost(Long id) {
-        return null;
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundExeption::new);
+        postRepository.delete(post);
+        return modelMapper.map(post, PostDto.class);
     }
 
     @Override
+    @Transactional
     public PostDto addComment(Long id, String author, NewCommentDto newCommentDto) {
-        return null;
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundExeption::new);
+        Comment comment = new Comment(author,newCommentDto.getMessage());
+        post.addComment(comment);
+        return modelMapper.map(post, PostDto.class);
     }
 
     @Override
     public Iterable<PostDto> findPostByAuthor(String author) {
-        return null;
+        return postRepository.findByAuthor(author)
+                .map(p -> modelMapper.map(p, PostDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Iterable<PostDto> findPostByTags(List<String> tags) {
-        return null;
+        return postRepository.findByTagsNameIn(tags)
+                .map(p -> modelMapper.map(p, PostDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Iterable<PostDto> findPostByPeriod(LocalDate dateFrom, LocalDate dateTo) {
-        return null;
+        return postRepository.findByDateCreatedBetween(dateFrom.atStartOfDay(), dateTo.atTime(23, 59, 59))
+                .map(p -> modelMapper.map(p, PostDto.class))
+                .collect(Collectors.toList());
     }
 }
