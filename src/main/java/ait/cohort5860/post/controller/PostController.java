@@ -19,7 +19,7 @@ public class PostController {
 
     @PostMapping("/post/{author}")
     @ResponseStatus(HttpStatus.CREATED)
-    public PostDto addNewPost(String author, NewPostDto newPostDto) {
+    public PostDto addNewPost(@PathVariable String author, @RequestBody NewPostDto newPostDto) {
         return postService.addNewPost(author, newPostDto);
     }
 
