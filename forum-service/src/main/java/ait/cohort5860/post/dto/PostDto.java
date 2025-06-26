@@ -1,11 +1,14 @@
 package ait.cohort5860.post.dto;
 
-import lombok.Singular;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PostDto {
     private Long id;
     private String title;
