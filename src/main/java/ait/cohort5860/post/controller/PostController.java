@@ -6,9 +6,7 @@ import ait.cohort5860.post.dto.PostDto;
 import ait.cohort5860.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,41 +17,50 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    @PostMapping("/post/{author}")
     @ResponseStatus(HttpStatus.CREATED)
     public PostDto addNewPost(String author, NewPostDto newPostDto) {
-        return null;
+        return postService.addNewPost(author, newPostDto);
     }
 
-    public PostDto findPostById(Long id) {
-        return null;
+    @GetMapping("/post/{id}")
+    public PostDto findPostById(@PathVariable Long id) {
+        return postService.findPostById(id);
     }
 
+    @PatchMapping("/post/{id}/like")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addLike(Long id) {
-
+    public void addLike(@PathVariable Long id) {
+        postService.addLike(id);
     }
 
-    public PostDto updatePost(Long id, NewPostDto newPostDto) {
-        return null;
+    @PatchMapping("/post/{id}")
+    public PostDto updatePost(@PathVariable Long id, @RequestBody NewPostDto newPostDto) {
+        return postService.updatePost(id, newPostDto);
     }
 
-    public PostDto deletePost(Long id) {
-        return null;
+    @DeleteMapping("/post/{id}")
+    public PostDto deletePost(@PathVariable Long id) {
+        return postService.deletePost(id);
     }
 
-    public PostDto addComment(Long id, String author, NewCommentDto newCommentDto) {
-        return null;
+    @PatchMapping("/post/{id}/comment/{author}")
+    public PostDto addComment(@PathVariable Long id, @PathVariable String author, @RequestBody NewCommentDto newCommentDto) {
+        return postService.addComment(id, author, newCommentDto);
     }
 
-    public Iterable<PostDto> findPostsByAuthor(String author) {
-        return null;
+    @GetMapping("/posts/author/{author}")
+    public Iterable<PostDto> findPostsByAuthor(@PathVariable String author) {
+        return postService.findPostsByAuthor(author);
     }
 
-    public Iterable<PostDto> findPostsByTags(List<String> tags) {
-        return null;
+    @GetMapping("/posts/tags")
+    public Iterable<PostDto> findPostsByTags(@RequestParam("values") List<String> tags) {
+        return postService.findPostsByTags(tags);
     }
 
-    public Iterable<PostDto> findPostsByPeriod(LocalDate dateFrom, LocalDate dateTo) {
-        return null;
+    @GetMapping("/posts/period")
+    public Iterable<PostDto> findPostsByPeriod(@RequestParam("dateFrom") LocalDate from, @RequestParam("dateTo") LocalDate to) {
+        return postService.findPostsByPeriod(from, to);
     }
 }
