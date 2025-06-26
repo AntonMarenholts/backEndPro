@@ -85,6 +85,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Iterable<PostDto> findPostByAuthor(String author) {
         return postRepository.findByAuthor(author)
                 .map(p -> modelMapper.map(p, PostDto.class))
@@ -92,6 +93,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Iterable<PostDto> findPostByTags(List<String> tags) {
         return postRepository.findByTagsNameIn(tags)
                 .map(p -> modelMapper.map(p, PostDto.class))
@@ -99,6 +101,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Iterable<PostDto> findPostByPeriod(LocalDate dateFrom, LocalDate dateTo) {
         return postRepository.findByDateCreatedBetween(dateFrom.atStartOfDay(), dateTo.atTime(23, 59, 59))
                 .map(p -> modelMapper.map(p, PostDto.class))
