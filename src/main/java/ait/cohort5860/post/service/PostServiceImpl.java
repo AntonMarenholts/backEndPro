@@ -49,18 +49,42 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void addLike(Long id) {
-
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        post.addLike();
     }
 
     @Override
+    @Transactional
     public PostDto updatePost(Long id, NewPostDto newPostDto) {
-        return null;
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        String content = newPostDto.getContent();
+        if (content != null) {
+            post.setContent(content);
+        }
+        String title = newPostDto.getTitle();
+        if (title != null) {
+            post.setTitle(title);
+        }
+        Set<String> tags = newPostDto.getTags();
+        if (tags != null) {
+            for (String tagName : tags) {
+                Tag tag = tagRepository.findById(tagName)
+                        .orElseGet(() -> tagRepository.save(new Tag(tagName)));
+                post.addTag(tag);
+            }
+        }
+        post = postRepository.save(post);
+        return modelMapper.map(post, PostDto.class);
     }
 
     @Override
+    @Transactional
     public PostDto deletePost(Long id) {
-        return null;
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        postRepository.delete(post);
+        return modelMapper.map(post, PostDto.class);
     }
 
     @Override
