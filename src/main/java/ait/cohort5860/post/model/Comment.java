@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,7 @@ public class Comment {
     private String message;
     private LocalDateTime dateCreated = LocalDateTime.now();
     private int likes;
+    @Setter
     @ManyToOne
     private Post post;
 
