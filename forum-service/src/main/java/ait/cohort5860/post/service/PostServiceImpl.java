@@ -1,5 +1,6 @@
 package ait.cohort5860.post.service;
 
+import ait.cohort5860.post.dao.CommentRepository;
 import ait.cohort5860.post.dao.PostRepository;
 import ait.cohort5860.post.dao.TagRepository;
 import ait.cohort5860.post.dto.NewCommentDto;
@@ -25,6 +26,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final TagRepository tagRepository;
     private final ModelMapper modelMapper;
+    private final CommentRepository commentRepository;
 
 
     @Override
@@ -80,7 +82,9 @@ public class PostServiceImpl implements PostService {
     public PostDto addComment(Long id, String author, NewCommentDto newCommentDto) {
         Post post = postRepository.findById(id).orElseThrow(PostNotFoundExeption::new);
         Comment comment = new Comment(author,newCommentDto.getMessage());
+        comment.setPost(post);
         post.addComment(comment);
+        commentRepository.save(comment);
         return modelMapper.map(post, PostDto.class);
     }
 
