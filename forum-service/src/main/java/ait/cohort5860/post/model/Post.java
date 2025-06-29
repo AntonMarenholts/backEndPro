@@ -22,20 +22,30 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
+    @Column(name = "title")
     @Setter
     private String title;
+    @Column(name = "content", columnDefinition = "TEXT")
     @Setter
     private String content;
+    @Column(name = "author")
     @Setter
     private String author;
+    @Column(name = "date_created")
     private LocalDateTime dateCreated = LocalDateTime.now();
 
     @ManyToMany
+    @JoinTable(
+            name = "posts_tags",
+            inverseJoinColumns = @JoinColumn(name = "tag_name")
+    )
     private Set<Tag> tags = new HashSet<>();
+    @Column(name = "likes")
     private int likes;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
     public Post(String title, String content, String author) {
