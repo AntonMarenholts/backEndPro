@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: UserAccount
+
+
+  datasource:
+    url: jdbc:postgresql://cohort5860-cohort-58-60-60.c.aivencloud.com:20087/defaultdb?sslmode=require
+    username: avnadmin
+    password: ${AIVEN_PASS}
+    hikari:
+      maximum-pool-size: 20
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
